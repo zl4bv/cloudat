@@ -8,10 +8,6 @@ module Cloudat
       Loader.resources[resource_class] = actions
     end
 
-    def self.load_provider(provider)
-      require "cloudat/resource/#{provider}"
-    end
-
     class Loader
       def self.resources
         @resources ||= {}
@@ -24,4 +20,3 @@ module Cloudat
     end
   end
 end
-

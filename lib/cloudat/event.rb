@@ -6,10 +6,6 @@ module Cloudat
       Loader.events << event_class
     end
 
-    def self.load_provider(provider)
-      require "cloudat/event/#{provider}"
-    end
-
     class Loader
       def self.events
         @resources ||= []
@@ -22,4 +18,3 @@ module Cloudat
     end
   end
 end
-

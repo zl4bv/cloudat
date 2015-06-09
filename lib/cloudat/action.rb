@@ -6,10 +6,6 @@ module Cloudat
       Loader.actions << action_class
     end
 
-    def self.load_provider(provider)
-      require "cloudat/action/#{provider}"
-    end
-
     class Loader
       def self.actions
         @actions ||= []
@@ -22,4 +18,3 @@ module Cloudat
     end
   end
 end
-

@@ -25,9 +25,7 @@ module Cloudat
     end
 
     def load_provider(provider)
-      Cloudat::Action.load_provider(provider)
-      Cloudat::Event.load_provider(provider)
-      Cloudat::Resource.load_provider(provider)
+      require "cloudat/#{provider}"
     end
   end
 end
