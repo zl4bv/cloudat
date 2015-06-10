@@ -4,7 +4,7 @@ module Cloudat
       include Cloudat::Configurable
 
       def initialize(config = nil)
-        init_config(config)
+        @config = config
         init_dsl
       end
 

@@ -2,33 +2,33 @@ module Cloudat
   module Resource
     class BaseResource
       include Cloudat::Configurable
+      extend Cloudat::Dsl::DslName
 
       Resource.register(self, :noop)
 
+      attr_accessor :identifier
+
+      # Gets the name of the class formatted in a way that can be consumed
+      # by the DSL.
+      # @deprecated Use {#dsl_name} instead
       def self.resource_name
-        class_name = self.underscore(self.name)
-        class_name = class_name.split('/').last if class_name.include?('/')
-        class_name.gsub(/_resource$/, '')
+        dsl_name
       end
 
-      # activesupport/lib/active_support/inflector/methods.rb, line 48
-      def self.underscore(camel_cased_word)
-        word = camel_cased_word.to_s.dup
-        word.gsub!(/::/, '/')
-        word.gsub!(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
-        word.gsub!(/([a-z\d])([A-Z])/, '\1_\2')
-        word.tr!('-', '_')
-        word.downcase!
-        word
+      def initialize(cfg, id)
+        @config = cfg
+        @identifier = id
       end
 
-      def initialize(config, *_args)
-        init_config(config)
+      def to_s
+        "#{dsl_name} #{identifier}"
       end
 
+      # Dummy action. Useful for testing purposes.
       def noop
-        puts "Noop action executed on #{self}"
+        logger.info("#{self} did nothing (noop action)")
       end
+
     end
   end
 end

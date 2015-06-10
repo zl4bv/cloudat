@@ -2,6 +2,7 @@ require 'cloudat/version'
 
 require 'cloudat/configuration'
 require 'cloudat/configurable'
+require 'cloudat/dsl/dsl_name'
 
 require 'cloudat/action'
 require 'cloudat/action/base_action'

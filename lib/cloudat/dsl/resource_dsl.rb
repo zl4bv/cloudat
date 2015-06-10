@@ -5,14 +5,14 @@ module Cloudat
         dsl_name = resource_klass.resource_name
         begin
           instance_eval(<<-EOM, __FILE__, __LINE__ + 1)
-            def #{dsl_name}(*args)
-              resource_eval(#{resource_klass}, *args)
+            def #{dsl_name}(identifier)
+              resource_eval(#{resource_klass}, identifier)
             end
           EOM
         rescue SyntaxError
           # TODO: add support for blocks
-          define_method(dsl_name.to_sym) do |*args|
-            resource_eval(resource_klass, *args)
+          define_method(dsl_name.to_sym) do |identifier|
+            resource_eval(resource_klass, identifier)
           end
         end
       end
@@ -22,8 +22,8 @@ module Cloudat
         remove_method(dsl_name) if method_defined?(dsl_name)
       end
 
-      def resource_eval(resource_klass, *args)
-        res = resource_klass.new(config, *args)
+      def resource_eval(resource_klass, identifier)
+        res = resource_klass.new(config, identifier)
         add_resource(res) if respond_to?(:add_resource)
         res
       end
