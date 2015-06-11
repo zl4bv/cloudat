@@ -1,5 +1,12 @@
 module Cloudat
   class Configuration
+    def init_logger(*args)
+      args << STDOUT if args.empty?
+      logger = ::Logger.new(*args)
+      logger.level = ::Logger::INFO
+      logger
+    end
+
     def action_methods
       resource_loader.actions
     end
