@@ -10,5 +10,5 @@ if ARGV.length > 0
   plan = Cloudat::Dsl::Plan.new(config)
   plan.instance_eval(plan_file)
 else
-  puts 'Usage: ./bin/cloudat plan_file'
+  puts 'Usage: bundle exec cloudat plan_file.rb'
 end
