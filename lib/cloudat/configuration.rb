@@ -1,23 +1,7 @@
 module Cloudat
   class Configuration
-    def action_classes
-      action_loader.actions
-    end
-
-    def action_loader
-      @action_loader ||= Cloudat::Action::Loader.new
-    end
-
     def action_methods
       resource_loader.actions
-    end
-
-    def event_classes
-      event_loader.events
-    end
-
-    def event_loader
-      @event_loader ||= Cloudat::Event::Loader.new
     end
 
     def resource_classes
