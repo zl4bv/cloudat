@@ -4,15 +4,10 @@ module Cloudat
       include Cloudat::Configurable
       extend Cloudat::Dsl::DslName
 
-      Resource.register(self, :noop)
-
       attr_accessor :identifier
 
-      # Gets the name of the class formatted in a way that can be consumed
-      # by the DSL.
-      # @deprecated Use {#dsl_name} instead
-      def self.resource_name
-        dsl_name
+      def self.actions
+        instance_methods.select { |method| method.to_s.start_with?('action_') }
       end
 
       def initialize(cfg, id)
@@ -21,14 +16,15 @@ module Cloudat
       end
 
       def to_s
-        "#{dsl_name} #{identifier}"
+        "#{self.class.dsl_name} #{identifier}"
       end
 
       # Dummy action. Useful for testing purposes.
-      def noop
+      def action_noop
         logger.info("#{self} did nothing (noop action)")
       end
 
+      Resource.register(self)
     end
   end
 end

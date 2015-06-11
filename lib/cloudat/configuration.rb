@@ -8,6 +8,10 @@ module Cloudat
       @action_loader ||= Cloudat::Action::Loader.new
     end
 
+    def action_methods
+      resource_loader.actions
+    end
+
     def event_classes
       event_loader.events
     end

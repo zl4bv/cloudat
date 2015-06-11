@@ -4,11 +4,20 @@ module Cloudat
     # @param resource_class [Class] resource class to register
     # @param actions [Symbol, ...] one or more actions to be registered
     #   to the specified resource
-    def self.register(resource_class, *actions)
-      Loader.resources[resource_class] = actions
+    def self.register(resource_class, *args)
+      puts 'Supplying actions to .register is deprecated.' if args.length > 0
+      Loader.resources[resource_class] = resource_class.actions
     end
 
     class Loader
+      def self.actions
+        resources.values.flatten.uniq
+      end
+
+      def actions
+        Loader.actions
+      end
+
       def self.resources
         @resources ||= {}
       end

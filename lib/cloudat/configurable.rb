@@ -13,7 +13,7 @@ module Cloudat
 
     # @return [Logger] new or existing logger instance
     def logger
-      @logger ||= Logger.new(STDOUT)
+      @logger ||= ::Logger.new(STDOUT)
     end
   end
 end

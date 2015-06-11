@@ -7,8 +7,8 @@ require 'cloudat/dsl'
 if ARGV.length > 0
   config = Cloudat::Configuration.new
   plan_file = File.read(ARGV[0])
-  plan = Cloudat::Dsl::PlanContext.new(config)
-  plan.plan_eval(plan_file)
+  plan = Cloudat::Dsl::Plan.new(config)
+  plan.instance_eval(plan_file)
 else
   puts 'Usage: ./bin/cloudat plan_file'
 end
