@@ -31,13 +31,30 @@ module Cloudat
         logger.debug("Defining resource method: #{r_name}")
         begin
           instance_eval(<<-EOM, __FILE__, __LINE__ + 1)
-            def #{r_name}(*args)
-              #{res}.new(config, *args)
+            def #{r_name}(identifier)
+              #{res}.new(config, identifier)
             end
           EOM
         rescue SyntaxError
-          define_method(r_name.to_sym) do |*args|
-            res.new(config, *args)
+          define_method(r_name.to_sym) do |identifier|
+            res.new(config, identifier)
+          end
+        end
+      end
+
+      def define_resources_method(res)
+        r_name = "#{res.dsl_name}s"
+        return if respond_to?(r_name) # Method already exists
+        logger.debug("Defining resources method: #{r_name}")
+        begin
+          instance_eval(<<-EOM, __FILE__, __LINE__ + 1)
+            def #{r_name}(*options)
+              #{res}.builder(config, *options)
+            end
+          EOM
+        rescue SyntaxError
+          define(r_name.to_sym) do |*options|
+            res.builder(config, identifier)
           end
         end
       end
@@ -48,7 +65,10 @@ module Cloudat
 
       def init_dsl
         config.action_methods.each { |act| define_action_method(act) }
-        config.resource_classes.each { |res| define_resource_method(res) }
+        config.resource_classes.each do |res|
+          define_resource_method(res)
+          define_resources_method(res)
+        end
       end
 
       def provider(prov)
@@ -57,9 +77,15 @@ module Cloudat
         init_dsl
       end
 
-      def send_action_method(act, *args, &_block)
-        logger.debug("Sending action: #{act}")
-        args.each(&act)
+      def send_action_method(action, *args, &_block)
+        logger.debug("Sending action: #{action}")
+        args.each do |arg|
+          if arg.is_a?(Array)
+            arg.each(&action)
+          else
+            arg.send(action)
+          end
+        end
       end
 
       def scheduler
