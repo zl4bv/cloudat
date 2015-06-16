@@ -1,8 +1,7 @@
-require 'rufus-scheduler'
 require 'cloudat/dsl/schedule'
 
 describe Cloudat::Dsl::Schedule do
-  let(:scheduler) { double(Rufus::Scheduler) }
+  let(:scheduler) { double('TatooineScheduler') }
   let(:klass) do
     Class.new do
       include Cloudat::Dsl::Schedule
