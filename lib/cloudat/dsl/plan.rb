@@ -2,6 +2,7 @@ module Cloudat
   module Dsl
     class Plan
       include Cloudat::Configurable
+      include Cloudat::Dsl::Schedule
 
       def initialize(cfg = nil)
         config = cfg
@@ -59,16 +60,13 @@ module Cloudat
         end
       end
 
-      def every(*args, &block)
-        scheduler.every(*args, &block)
-      end
-
       def init_dsl
         config.action_methods.each { |act| define_action_method(act) }
         config.resource_classes.each do |res|
           define_resource_method(res)
           define_resources_method(res)
         end
+        config.schedule_methods.each { |sch| define_schedule_method(sch) }
       end
 
       def provider(prov)
@@ -86,10 +84,6 @@ module Cloudat
             arg.send(action)
           end
         end
-      end
-
-      def scheduler
-        @scheduler || Rufus::Scheduler.new
       end
     end
   end

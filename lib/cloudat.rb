@@ -6,6 +6,7 @@ require 'cloudat/version'
 require 'cloudat/configuration'
 require 'cloudat/configurable'
 require 'cloudat/dsl/dsl_name'
+require 'cloudat/dsl/schedule'
 
 require 'cloudat/resource'
 require 'cloudat/resource/base_resource'

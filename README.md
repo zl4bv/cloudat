@@ -45,12 +45,15 @@ every '1d' do
   stop instance 'i-abcd1234'
   start instance 'i-abcd1234'
 end
+
+scheduler.join
 ```
 
 Scheduling is provided by [rufus-scheduler](https://github.com/jmettraux/rufus-scheduler).
-Currently only _every_ jobs are supported.
 
-TODO: support for _at_, _cron_, and _in_ jobs coming soon.
+Note: `scheduler.join` must be called at the end of a plan for scheduled
+actions to run. This requirement will be removed when a proper daemon support
+is introduced.
 
 ## Contributing
 

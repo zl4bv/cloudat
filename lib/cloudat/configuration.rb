@@ -19,6 +19,10 @@ module Cloudat
       @resource_loader ||= Cloudat::Resource::Loader.new
     end
 
+    def schedule_methods
+      %w(at cron every in)
+    end
+
     def load_provider(provider)
       require "cloudat/#{provider}"
     end
