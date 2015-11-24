@@ -78,11 +78,7 @@ module Cloudat
       def send_action_method(action, *args, &_block)
         logger.debug("Sending action: #{action}")
         args.each do |arg|
-          if arg.is_a?(Array)
-            arg.each(&action)
-          else
-            arg.send(action)
-          end
+          arg.send(action)
         end
       end
     end
