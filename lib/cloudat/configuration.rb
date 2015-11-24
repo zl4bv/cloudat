@@ -1,5 +1,13 @@
 module Cloudat
   class Configuration
+    def initialize(options = {})
+      @options = options
+    end
+
+    def options(option)
+      @options[option.to_s]
+    end
+
     def init_logger(*args)
       args << STDOUT if args.empty?
       logger = ::Logger.new(*args)
