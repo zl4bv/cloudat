@@ -1,4 +1,6 @@
-# Cloudat [![Build Status](https://secure.travis-ci.org/zl4bv/cloudat.svg?branch=master)](http://travis-ci.org/zl4bv/cloudat)
+# Cloudat
+
+[![Build Status](https://secure.travis-ci.org/zl4bv/cloudat.svg?branch=master)](http://travis-ci.org/zl4bv/cloudat)
 
 Run cloud infrastructure actions on a schedule
 
