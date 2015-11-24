@@ -1,15 +1,6 @@
 #!/usr/bin/env ruby
 # vim: set filetype=ruby:
 
-require 'cloudat'
-require 'cloudat/dsl'
+require 'cloudat/cli'
 
-if ARGV.length > 0
-  config = Cloudat::Configuration.new
-  plan_file = ARGV[0]
-  plan_content = File.read(plan_file)
-  plan = Cloudat::Dsl::Plan.new(config)
-  plan.instance_eval(plan_content, plan_file)
-else
-  puts 'Usage: bundle exec cloudat plan_file.rb'
-end
+Cloudat::Cli.start

@@ -5,7 +5,7 @@ module Cloudat
       include Cloudat::Dsl::Schedule
 
       def initialize(cfg = nil)
-        config = cfg
+        @config = cfg
         init_dsl
       end
 
@@ -75,13 +75,22 @@ module Cloudat
         init_dsl
       end
 
-      def send_action_method(action, *args, &_block)
-        logger.debug("Sending action: #{action}")
-        args.each do |arg|
-          if arg.is_a?(Array)
-            arg.each(&action)
+      def dry_run?
+        config.options('dry-run')
+      end
+
+      def send_action_method(action, resources)
+        logger.debug("Sending action: #{action} on #{resources.inspect}")
+
+        Array(resources).each do |resource|
+          # Stop here if we're in dry-run
+          logger.info("Would have executed #{action} on #{resource}") if dry_run?
+          next if dry_run?
+
+          if resource.is_a?(Array)
+            resource.each(&action)
           else
-            arg.send(action)
+            resource.send(action)
           end
         end
       end
