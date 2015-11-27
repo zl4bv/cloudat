@@ -4,8 +4,12 @@ module Cloudat
       @options = options
     end
 
-    def options(option)
-      @options[option.to_s]
+    def plan
+      @options[:plan]
+    end
+
+    def dry_run?
+      @options[:dry_run]
     end
 
     def init_logger(*args)
