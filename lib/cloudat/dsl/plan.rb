@@ -9,6 +9,14 @@ module Cloudat
         init_dsl
       end
 
+      def execute
+        plan_file = config.plan
+        puts "Running Cloudat on #{plan_file}#{" (dry-run)" if dry_run?}"
+
+        plan_content = File.read(plan_file)
+        instance_eval(plan_content, plan_file)
+      end
+
       def define_action_method(act)
         m_name = act.to_s.gsub(/^action_/, '')
         return if respond_to?(m_name) # Method already exists
@@ -76,7 +84,7 @@ module Cloudat
       end
 
       def dry_run?
-        config.options('dry-run')
+        config.dry_run?
       end
 
       def send_action_method(action, resources)

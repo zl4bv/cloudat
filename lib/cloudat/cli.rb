@@ -19,12 +19,9 @@ module Cloudat
 
     desc 'exec', 'Executes the tasks described in the plan'
     def exec
-      config = Cloudat::Configuration.new(options)
-      plan_file = options['plan']
-
-      plan_content = File.read(plan_file)
+      config = Cloudat::Configuration.new(plan: options['plan'], dry_run: options['dry-run'])
       plan = Cloudat::Dsl::Plan.new(config)
-      plan.instance_eval(plan_content, plan_file)
+      plan.execute
     end
 
     default_task :exec
